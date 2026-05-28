@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PromptProcessing.Core\PromptProcessing.Core.csproj" />
+      <ProjectReference Include="..\PromptProcessing.ServiceDefaults\PromptProcessing.ServiceDefaults.csproj" />
     </ItemGroup>
 
 </Project>

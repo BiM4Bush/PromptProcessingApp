@@ -25,6 +25,9 @@ builder.Services.AddMassTransit(x =>
 		cfg.ConfigureEndpoints(context);
 	});
 });
+
+builder.AddServiceDefaults();
+
 var app = builder.Build();
 
 app.UseCors();

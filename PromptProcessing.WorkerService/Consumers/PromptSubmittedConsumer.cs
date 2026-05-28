@@ -5,6 +5,7 @@
 // #endregion
 
 using MassTransit;
+using Microsoft.SemanticKernel;
 using PromptProcessing.Common;
 using PromptProcessing.Core.Data;
 using Event = PromptProcessing.Common.Event;
@@ -14,11 +15,14 @@ namespace PromptProcessing.WorkerService.Consumers;
 public class PromptSubmittedConsumer : IConsumer<Event.PromptSubmittedEvent>
 {
 	private readonly PromptProcessingAppDbContext dbContext;
+	private readonly Kernel kernel;
 	private readonly ILogger<PromptSubmittedConsumer> logger;
 
-	public PromptSubmittedConsumer(PromptProcessingAppDbContext dbContext, ILogger<PromptSubmittedConsumer> logger)
+	public PromptSubmittedConsumer(PromptProcessingAppDbContext dbContext, Kernel kernel,
+		ILogger<PromptSubmittedConsumer> logger)
 	{
 		this.dbContext = dbContext;
+		this.kernel = kernel;
 		this.logger = logger;
 	}
 
@@ -43,12 +47,9 @@ public class PromptSubmittedConsumer : IConsumer<Event.PromptSubmittedEvent>
 		{
 			logger.LogInformation("Send the LLM model with prompt: {Prompt}", promptTask.Content);
 
-			// TODO: SEMANTIC KERNEL
+			var result = await kernel.InvokePromptAsync(promptTask.Content);
 
-			await Task.Delay(3000);
-			string fakeAiResult = $"[Simulated AI response: '{promptTask.Content}']";
-
-			promptTask.Result = fakeAiResult;
+			promptTask.Result = result.GetValue<string>();
 			promptTask.Status = PromptStatus.Completed;
 		}
 		catch (Exception ex)
@@ -56,6 +57,7 @@ public class PromptSubmittedConsumer : IConsumer<Event.PromptSubmittedEvent>
 			logger.LogError(ex, "Error communicating with LLM for Prompt ID: {PromptId}", promptId);
 
 			promptTask.Status = PromptStatus.Failed;
+			promptTask.Result = $"Model error: {ex.Message}";
 		}
 		finally
 		{
