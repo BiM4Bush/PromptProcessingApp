@@ -4,22 +4,26 @@
 // 
 // #endregion
 
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PromptProcessing.Common;
 using PromptProcessing.Core.Data;
 using PromptProcessing.Core.Interfaces;
+using Event = PromptProcessing.Common.Event;
 
 namespace PromptProcessing.Core.Services;
 
 public class PromptHandleService : IPromptHandleService
 {
 	private readonly PromptProcessingAppDbContext dbContext;
+	private readonly IPublishEndpoint publishEndpoint;
 
-	public PromptHandleService(PromptProcessingAppDbContext dbContext)
+	public PromptHandleService(PromptProcessingAppDbContext dbContext, IPublishEndpoint publishEndpoint)
 	{
 		this.dbContext = dbContext;
+		this.publishEndpoint = publishEndpoint;
 	}
-
+	
 	public async Task<PromptDTO.PromptResponse> CreatePromptAsync(PromptDTO.CreatePromptRequest request)
 	{
 		var task = new PromptModel
@@ -32,7 +36,7 @@ public class PromptHandleService : IPromptHandleService
 		dbContext.PromptModel.Add(task);
 		await dbContext.SaveChangesAsync();
 
-		// TODO: RabbitMQ publish event (w kolejnym kroku wstrzykniemy tu np. IPublishEndpoint)
+		await publishEndpoint.Publish(new Event.PromptSubmittedEvent(task.Id));
 
 		return new PromptDTO.PromptResponse(
 			task.Id,
