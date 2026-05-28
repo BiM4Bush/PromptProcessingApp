@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PromptProcessing.Core.Data;
 using PromptProcessing.Core.Interfaces;
@@ -9,14 +10,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
 	.AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
 builder.Services.AddScoped<IPromptHandleService, PromptHandleService>();
-builder.Services.AddDbContext<PromptProcessingAppDbContext>(options =>
-	options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+builder.AddNpgsqlDbContext<PromptProcessingAppDbContext>("PromptDb");
 builder.Services.AddCors(options =>
 {
 	options.AddDefaultPolicy(policy => { policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
 });
 
+builder.Services.AddMassTransit(x =>
+{
+	x.UsingRabbitMq((context, cfg) =>
+	{
+		var connectionString = builder.Configuration.GetConnectionString("messaging");
+		cfg.Host(connectionString);
+		cfg.ConfigureEndpoints(context);
+	});
+});
 var app = builder.Build();
 
 app.UseCors();
