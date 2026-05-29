@@ -12,7 +12,7 @@ public class PromptModel
 	public string Content { get; set; } = string.Empty;
 	public string? Result { get; set; }
 	public PromptStatus Status { get; set; } = PromptStatus.Pending;
-	public DateTime CreatedAt { get; set; } = DateTime.Now;
+	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	public DateTime? ModifiedAt { get; set; }
 	
 }
