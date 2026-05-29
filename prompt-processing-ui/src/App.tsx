@@ -53,7 +53,7 @@ function App() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               disabled={mutation.isPending}
-              placeholder="Wpisz swój prompt (np. 'Opowiedz dowcip o programistach')..."
+              placeholder="Enter prompt ..."
               className="flex-1 px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg focus:outline-none focus:border-emerald-500 text-white placeholder-slate-400"
             />
             <button
@@ -61,16 +61,16 @@ function App() {
               disabled={mutation.isPending || !inputValue.trim()}
               className="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg transition-colors disabled:opacity-50"
             >
-              {mutation.isPending ? 'Wysyłanie...' : 'Wyślij'}
+              {mutation.isPending ? 'Sending...' : 'Send'}
             </button>
           </form>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-white">Historia zadań</h2>
+          <h2 className="text-xl font-semibold text-white">Prompts history</h2>
           
-          {isLoading && <p className="text-slate-400">Ładowanie danych...</p>}
-          {isError && <p className="text-red-400">Nie udało się połączyć z serwerem.</p>}
+          {isLoading && <p className="text-slate-400">Loading data...</p>}
+          {isError && <p className="text-red-400">Failed to connect to server.</p>}
 
           {prompts?.map((prompt) => (
             <div key={prompt.id} className="bg-slate-800 p-4 rounded-lg border border-slate-700 flex flex-col gap-2">
@@ -86,17 +86,17 @@ function App() {
                   <p className="text-slate-200">{prompt.result}</p>
                 )}
                 {prompt.status === 'Failed' && (
-                  <p className="text-red-400">Wystąpił błąd podczas przetwarzania.</p>
+                  <p className="text-red-400">An error occurred during processing.</p>
                 )}
                 {(prompt.status === 'Pending' || prompt.status === 'Processing') && (
-                  <p className="animate-pulse">AI przetwarza Twoje zapytanie...</p>
+                  <p className="animate-pulse">AI processes your query...</p>
                 )}
               </div>
             </div>
           ))}
           
           {prompts?.length === 0 && !isLoading && (
-            <p className="text-slate-500 text-center py-8">Brak zadań. Wyślij swój pierwszy prompt!</p>
+            <p className="text-slate-500 text-center py-8">No prompt history data.</p>
           )}
         </div>
 
