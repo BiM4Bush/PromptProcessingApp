@@ -8,14 +8,16 @@
 
     <ItemGroup>
         <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.3.5" />
-        <PackageReference Include="MassTransit.RabbitMQ" Version="9.1.1" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.16" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\PromptProcessing.Core\PromptProcessing.Core.csproj" />
       <ProjectReference Include="..\PromptProcessing.ServiceDefaults\PromptProcessing.ServiceDefaults.csproj" />
+      <ProjectReference Include="..\PromptProcessing.WorkerService\PromptProcessing.WorkerService.csproj" />
     </ItemGroup>
 
 </Project>

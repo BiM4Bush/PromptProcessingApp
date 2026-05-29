@@ -30,7 +30,7 @@ public class PromptHandleService : IPromptHandleService
 		{
 			Content = request.PromptContent,
 			Status = PromptStatus.Pending,
-			CreatedAt = DateTime.Now,
+			CreatedAt = DateTime.UtcNow,
 		};
 
 		dbContext.PromptModel.Add(task);
