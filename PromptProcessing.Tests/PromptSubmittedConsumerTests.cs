@@ -1,6 +1,6 @@
 // #region HEADER
 // 
-// // Copyright Grail Team 2025
+// // Copyright Sebastian Krzynówek 2025
 // 
 // #endregion
 
@@ -9,9 +9,7 @@ using MassTransit.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
-using Moq;
 using PromptProcessing.Core.Data;
-using PromptProcessing.Core.Interfaces;
 using PromptProcessing.WorkerService.Consumers;
 using Event = PromptProcessing.Common.Event;
 
