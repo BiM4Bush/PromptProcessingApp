@@ -1,6 +1,7 @@
 using MassTransit;
 using Microsoft.SemanticKernel;
 using PromptProcessing.Core.Data;
+using PromptProcessing.ServiceDefaults;
 using PromptProcessing.WorkerService.Consumers;
 
 var builder = Host.CreateApplicationBuilder(args);

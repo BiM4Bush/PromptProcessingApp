@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using PromptProcessing.Core.Data;
 using PromptProcessing.Core.Interfaces;
 using PromptProcessing.Core.Services;
-using PromptProcessing.WorkerService.Consumers;
+using PromptProcessing.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 

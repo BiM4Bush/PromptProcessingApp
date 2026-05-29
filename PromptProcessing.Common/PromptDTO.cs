@@ -1,6 +1,6 @@
 // #region HEADER
 // 
-// // Copyright Grail Team 2025
+// // Copyright Sebastian Krzynówek 2025
 // 
 // #endregion
 
