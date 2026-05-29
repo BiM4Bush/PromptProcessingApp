@@ -32,6 +32,8 @@ The system is designed with the **Fire-and-Forget** pattern to ensure the API re
 * `PromptProcessing.WorkerService` - The background processor holding the Semantic Kernel logic.
 * `PromptProcessing.Core` - Shared domain entities, DTOs, and interfaces.
 * `prompt-processing-ui` - The React frontend application.
+* `PromptProcessing.Tests` - The xUnit test project.
+
 
 ## Prerequisites
 
